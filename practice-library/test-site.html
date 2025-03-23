@@ -1,0 +1,78 @@
+<!-- Simple Book Library Test Site -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Practice Library</title>
+    <style>
+        /* Friendly colors */
+        body { font-family: Arial, sans-serif; margin: 2rem; }
+        .book { background: #f0f8ff; padding: 1rem; margin: 1rem 0; }
+        button { background: #4CAF50; color: white; padding: 0.5rem 1rem; }
+    </style>
+</head>
+<body>
+    <!-- Main Section -->
+    <h1>📚 Welcome to Practice Library</h1>
+    
+    <!-- Search Section -->
+    <section id="searchArea">
+        <input type="text" id="bookSearch" placeholder="Find your next book...">
+        <button onclick="searchBook()">Search</button>
+    </section>
+
+    <!-- Add Book Form -->
+    <section id="addBookForm" style="margin-top: 2rem;">
+        <h2>Add New Book</h2>
+        <form onsubmit="return addBook(event)">
+            <input type="text" id="bookTitle" placeholder="Book Title" required>
+            <input type="text" id="author" placeholder="Author" required>
+            <button type="submit">Add Book</button>
+        </form>
+    </section>
+
+    <!-- Book List -->
+    <div id="bookList">
+        <div class="book">
+            <h3>The Little Prince</h3>
+            <p>Author: Antoine de Saint-Exupéry</p>
+        </div>
+    </div>
+
+    <script>
+        // Our simple library manager
+        let books = [
+            { title: "The Little Prince", author: "Antoine de Saint-Exupéry" }
+        ];
+
+        function addBook(event) {
+            event.preventDefault();
+            const newBook = {
+                title: document.getElementById('bookTitle').value,
+                author: document.getElementById('author').value
+            };
+            books.push(newBook);
+            refreshBookList();
+            event.target.reset();
+            alert('Book added successfully! 📖');
+        }
+
+        function searchBook() {
+            const searchTerm = document.getElementById('bookSearch').value.toLowerCase();
+            const results = books.filter(book => 
+                book.title.toLowerCase().includes(searchTerm)
+            );
+            alert(`Found ${results.length} books matching "${searchTerm}"`);
+        }
+
+        function refreshBookList() {
+            const listDiv = document.getElementById('bookList');
+            listDiv.innerHTML = books.map(book => `
+                <div class="book">
+                    <h3>${book.title}</h3>
+                    <p>Author: ${book.author}</p>
+                </div>
+            `).join('');
+        }
+    </script>
+</body>
+</html>
